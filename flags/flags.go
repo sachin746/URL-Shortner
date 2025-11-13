@@ -1,8 +1,9 @@
 package flags
 
 import (
-	"habit-tracker/constants"
 	"os"
+
+	"URL-Shortner/constants"
 
 	flag "github.com/spf13/pflag"
 )
