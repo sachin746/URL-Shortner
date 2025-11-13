@@ -1,0 +1,25 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-yaml
+
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.64.5
+    hooks:
+      - id: golangci-lint-full
+
+  - repo: local
+    hooks:
+      - id: go-build
+        name: 'go-build'
+        entry: bash -c 'go build $(go list ./... | grep -v /vendor/)'
+        language: 'system'
+        types: [go]
+        description: "Runs `go build`"
+      - id: go-unit-test
+        name: 'go-unit-test'
+        entry: bash -c 'go test -tags=unit -timeout 30s -short $(go list ./... | grep -v /vendor/)'
+        language: 'system'
+        types: [go]
+        description: "Runs `go test`"
