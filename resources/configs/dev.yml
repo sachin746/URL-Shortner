@@ -1,0 +1,23 @@
+database:
+  postgres:
+    port: 5432
+    user: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    host: ${DATABASE_HOST}
+    dbname: ${DATABASE_NAME}
+
+jwt:
+  userLoginsecret: ${USERLOGINSECRET}
+
+google:
+  client_id: ${GOOGLECLIENTID} 
+  client_secret: ${GOOGLECLIENTSECRET} 
+  redirect_url: ${GOOGLEREDIRECTURI} 
+  oauth_secret: ${GOOGLEOAUTHSECRET}
+
+github:
+  client_id: ${GITHUBCLIENTID}
+  client_secret: ${GITHUBCLIENTSECRET}
+  redirect_url: ${GITHUBREDIRECTURI} 
+  oauth_secret: ${GITHUBOAUTHSECRET}
+
