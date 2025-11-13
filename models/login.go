@@ -1,7 +1,7 @@
 package models
 
 import (
-	"habit-tracker/constants"
+	"URL-Shortner/constants"
 )
 
 type Login struct {

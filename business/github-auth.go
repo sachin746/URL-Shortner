@@ -2,14 +2,15 @@ package business
 
 import (
 	"encoding/json"
-	"habit-tracker/auth"
-	"habit-tracker/constants"
-	"habit-tracker/entities"
-	"habit-tracker/log"
-	"habit-tracker/models"
-	"habit-tracker/utils/database"
 	"net/http"
 	"strconv"
+
+	"URL-Shortner/auth"
+	"URL-Shortner/constants"
+	"URL-Shortner/entities"
+	"URL-Shortner/log"
+	"URL-Shortner/models"
+	"URL-Shortner/utils/database"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,12 +1,14 @@
 package middleware
 
 import (
-	"URLshortener/business"
 	"errors"
-	"habit-tracker/constants"
 	"log"
 	"net/http"
 	"strings"
+
+	"URL-Shortner/business"
+
+	"URL-Shortner/constants"
 
 	"github.com/gin-gonic/gin"
 )

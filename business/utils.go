@@ -1,12 +1,13 @@
 package business
 
 import (
-	"habit-tracker/constants"
-	"habit-tracker/log"
-	"habit-tracker/models"
-	"habit-tracker/utils/database"
 	"net/http"
 	"time"
+
+	"URL-Shortner/constants"
+	"URL-Shortner/log"
+	"URL-Shortner/models"
+	"URL-Shortner/utils/database"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"

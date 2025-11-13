@@ -2,10 +2,11 @@ package configs
 
 import (
 	"context"
-	"habit-tracker/constants"
-	"habit-tracker/flags"
-	"habit-tracker/log"
-	"habit-tracker/models"
+
+	"URL-Shortner/constants"
+	"URL-Shortner/flags"
+	"URL-Shortner/log"
+	"URL-Shortner/models"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"

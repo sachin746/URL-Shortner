@@ -1,9 +1,10 @@
 package models
 
 import (
-	"habit-tracker/constants"
-	"habit-tracker/utils/errors"
 	"time"
+
+	"URL-Shortner/constants"
+	"URL-Shortner/utils/errors"
 
 	"github.com/google/uuid"
 )

@@ -1,6 +1,6 @@
 package models
 
-import "habit-tracker/constants"
+import "URL-Shortner/constants"
 
 type GetUserRequest struct {
 	Username string `json:"username"`

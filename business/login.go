@@ -1,12 +1,12 @@
 package business
 
 import (
-	"habit-tracker/constants"
-	"habit-tracker/entities"
-	"habit-tracker/log"
-	"habit-tracker/models"
-	"habit-tracker/utils/database"
-	"habit-tracker/utils/errors"
+	"URL-Shortner/constants"
+	"URL-Shortner/entities"
+	"URL-Shortner/log"
+	"URL-Shortner/models"
+	"URL-Shortner/utils/database"
+	"URL-Shortner/utils/errors"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"

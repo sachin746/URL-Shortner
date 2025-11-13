@@ -2,11 +2,12 @@ package database
 
 import (
 	"context"
-	"habit-tracker/entities"
-	"habit-tracker/flags"
-	"habit-tracker/log"
-	"habit-tracker/utils/configs"
 	"time"
+
+	"URL-Shortner/entities"
+	"URL-Shortner/flags"
+	"URL-Shortner/log"
+	"URL-Shortner/utils/configs"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -54,15 +55,6 @@ func InitDatabase(ctx context.Context) {
 	log.Sugar.Info("Running database migrations...")
 	err = db.AutoMigrate(
 		&entities.User{},
-		&entities.Habit{},
-		&entities.HabitMember{},
-		&entities.HabitLog{},
-		&entities.HabitSkip{},
-		&entities.Post{},
-		&entities.Comment{},
-		&entities.Vote{},
-		&entities.Badge{},
-		&entities.UserBadge{},
 	)
 	if err != nil {
 		log.Sugar.Fatalf("Failed to migrate database: %v", err)
