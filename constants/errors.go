@@ -25,7 +25,6 @@ var (
 	ErrUsernameOrEmailisMandatory = &errors.Error{Code: "USERNAME-OR-EMAIL-IS-MANDATORY", Status: 400, Message: "Either username or email is mandatory", Err: nil}
 	ErrUnauthorized               = &errors.Error{Code: "UNAUTHORIZED", Status: 401, Message: "Unauthorized", Err: nil}
 
-	ErrOwnerRequired  = &errors.Error{Code: "OWNER-REQUIRED", Status: 403, Message: "Only owner can perform this action", Err: nil}
-	ErrOwnerCanAccept = &errors.Error{Code: "OWNER-CAN-ACCEPT", Status: 403, Message: "Only owner can accept other users", Err: nil}
-	ErrHabitNotPublic = &errors.Error{Code: "HABIT-NOT-PUBLIC", Status: 403, Message: "Habit is not public, members can only be added by invitation", Err: nil}
+	ErrInvalidOriginalURL     = &errors.Error{Code: "INVALID-ORIGINAL-URL", Status: 400, Message: "Original URL is invalid", Err: nil}
+	ErrOriginalURLisMandatory = &errors.Error{Code: "ORIGINAL-URL-IS-MANDATORY", Status: 400, Message: "Original URL is mandatory", Err: nil}
 )
