@@ -15,4 +15,6 @@ const (
 
 	DatabaseHostKey     = "DATABASE_HOST"
 	DatabasePasswordKey = "DATABASE_PASSWORD"
+	DatabaseUserKey     = "DATABASE_USER"
+	DatabaseNameKey     = "DATABASE_NAME"
 )

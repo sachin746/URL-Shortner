@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
-	"habit-tracker/api"
-	"habit-tracker/flags"
-	"habit-tracker/log"
-	"habit-tracker/utils"
-	"habit-tracker/utils/configs"
-	"habit-tracker/utils/database"
+
+	"URL-Shortner/api"
+	"URL-Shortner/flags"
+	"URL-Shortner/log"
+	"URL-Shortner/utils/configs"
+	"URL-Shortner/utils/database"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -18,7 +18,6 @@ func main() {
 	ctx := context.Background()
 
 	log.InitLogger(ctx)
-	utils.InitValidator()
 	configs.InitConfigs(ctx)
 	database.InitDatabase(ctx)
 	startRouter()

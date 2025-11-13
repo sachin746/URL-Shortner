@@ -1,11 +1,12 @@
 package api
 
 import (
-	"habit-tracker/log"
 	"time"
 
-	"habit-tracker/api/middleware"
-	apiv1 "habit-tracker/api/v1"
+	"URL-Shortner/log"
+
+	"URL-Shortner/api/middleware"
+	apiv1 "URL-Shortner/api/v1"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -44,26 +45,7 @@ func GetRouter() (*gin.Engine, error) {
 		profile := v1.Group("/profile")
 		profile.Use(middleware.AuthMiddleware())
 		profile.GET("", apiv1.HandleGetUser)
-		// profile.PUT("/profile", apiv1.HandleUpdateUser)
-		// profile.DELETE("/profile", apiv1.HandleDeleteUser)
-		// profile.POST("/logout", apiv1.HandleLogoutUser)
-		// Posts
-		posts := v1.Group("/posts", middleware.AuthMiddleware())
-		{
-			posts.POST("", apiv1.CreatePost)
-			posts.GET("", apiv1.ListPosts)
-			posts.GET("/:id", apiv1.GetPost)
-			posts.POST("/comments", apiv1.CreateComment)
-			posts.POST("/vote", apiv1.HandleVote)
-		}
 
-		// Habits
-		habits := v1.Group("/habits", middleware.AuthMiddleware())
-		{
-			habits.POST("", apiv1.CreateHabit)
-			habits.POST("/:habitId/members", apiv1.AddHabitMember)
-			habits.GET("/:habitId/members", apiv1.GetHabitMembers)
-		}
 	}
 
 	log.Sugar.Infof("Router initialized with version 1 endpoints")

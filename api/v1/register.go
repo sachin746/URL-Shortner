@@ -1,12 +1,13 @@
 package v1
 
 import (
-	"habit-tracker/business"
-	"habit-tracker/constants"
-	"habit-tracker/log"
-	"habit-tracker/models"
-	"habit-tracker/utils"
 	"net/http"
+
+	"URL-Shortner/models"
+
+	"URL-Shortner/business"
+	"URL-Shortner/constants"
+	"URL-Shortner/log"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,12 +27,6 @@ func HandleRegisterUser(ctx *gin.Context) {
 	var userReq models.User
 	if err := ctx.ShouldBindJSON(&userReq); err != nil {
 		ctx.JSON(http.StatusBadRequest, constants.ErrBindJSONFailed.SetErr(err))
-		return
-	}
-	err := utils.Validate.Struct(userReq)
-	if err != nil {
-		log.Sugar.Errorf("Validation failed: %v", err)
-		ctx.JSON(http.StatusBadRequest, utils.ValidationErrorResponse(err))
 		return
 	}
 	// Validate the user data

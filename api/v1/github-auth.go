@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"habit-tracker/business"
-	"habit-tracker/constants"
-	"habit-tracker/log"
-	"habit-tracker/utils"
 	"net/http"
 	"net/url"
+
+	"URL-Shortner/business"
+	"URL-Shortner/constants"
+	"URL-Shortner/log"
+	"URL-Shortner/utils"
 
 	"github.com/gin-gonic/gin"
 )

@@ -38,3 +38,11 @@ func DatabaseHost() string {
 func DatabasePassword() string {
 	return os.Getenv(constants.DatabasePasswordKey)
 }
+
+func DatabaseUser() string {
+	return os.Getenv(constants.DatabaseUserKey)
+}
+
+func DatabaseName() string {
+	return os.Getenv(constants.DatabaseNameKey)
+}

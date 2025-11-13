@@ -21,13 +21,13 @@ func Get() *gorm.DB {
 
 func InitDatabase(ctx context.Context) {
 	port := configs.Get().Database.Postgres.Port
-	user := configs.Get().Database.Postgres.User
-	dbname := configs.Get().Database.Postgres.DBName
-
-	log.Sugar.Infof("Connecting to database %s on port %d with user %s", dbname, port, user)
 
 	host := flags.DatabaseHost()
 	pass := flags.DatabasePassword()
+	dbname := flags.DatabaseName()
+	user := flags.DatabaseUser()
+	log.Sugar.Infof("Connecting to database %s on port %d with user %s", dbname, port, user)
+
 	if host == "" || pass == "" {
 		log.Sugar.Fatal("DATABASE_HOST and DATABASE_PASSWORD environment variables must be set")
 	}

@@ -1,11 +1,12 @@
 package v1
 
 import (
-	"habit-tracker/business"
-	"habit-tracker/log"
-	"habit-tracker/models"
-	"habit-tracker/utils"
 	"net/http"
+
+	"URL-Shortner/business"
+	"URL-Shortner/log"
+	"URL-Shortner/models"
+	"URL-Shortner/utils"
 
 	"github.com/gin-gonic/gin"
 )
