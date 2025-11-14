@@ -1,0 +1,8 @@
+@hostname = localhost:8080
+
+### Get shortUrl
+POST http://{{hostname}}/v1/shorten
+content-type: application/json
+{
+  "originalUrl": "https://www.example.com/some/very/long/url"
+}

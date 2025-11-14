@@ -46,6 +46,9 @@ func GetRouter() (*gin.Engine, error) {
 		profile.Use(middleware.AuthMiddleware())
 		profile.GET("", apiv1.HandleGetUser)
 
+		v1.POST("/shortcode", apiv1.HandleShortenURL)
+		v1.GET("/:shortcode", apiv1.HandleGetURL)
+
 	}
 
 	log.Sugar.Infof("Router initialized with version 1 endpoints")

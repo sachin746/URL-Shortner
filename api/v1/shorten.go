@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"errors"
 	"net/http"
 
 	"URL-Shortner/business"
@@ -34,4 +35,16 @@ func HandleShortenURL(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, UrlResponse)
 	log.Sugar.Infof("User %s logged in successfully", UrlResponse.ShortCode)
+}
+
+func HandleGetURL(c *gin.Context) {
+	shortCode := c.Param("shortcode")
+	urlResponse, err := business.GetOriginalURL(shortCode)
+	if err != nil {
+		log.Sugar.Errorf("Failed to get original URL: %v", err)
+		c.JSON(http.StatusNotFound, errors.New("shortcode not found"))
+		return
+	}
+	c.Redirect(http.StatusMovedPermanently, urlResponse.OriginalURL)
+	log.Sugar.Infof("Original URL for shortcode %s retrieved successfully", shortCode)
 }

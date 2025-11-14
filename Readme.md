@@ -30,3 +30,29 @@
   - created_at (Timestamp)
   - expires_at (Timestamp, Nullable)
   - click_count (Integer)
+
+
+### shorten logic:
+1. Receive long URL from user
+2. we get a ID from a table name `url_id_generator` where we will have multiple rows with ranges of ID to chose from what to pick
+ ex - row 1: start_id: 1, end_id: 1,000,000
+        row 2: start_id: 1,000,001, end_id: 2,000,000
+3. Pick a row from the table `url_id_generator` where the range is not exhausted
+ ```PostgreSQL
+    SELECT * FROM url_id_generator WHERE current_id < end_id order by RANDOM() LIMIT 1 FOR UPDATE;
+    UPDATE url_id_generator SET current_id = current_id + 1 WHERE id = <picked_row_id>;
+ ```
+4. Use the `current_id` from the picked row to generate a short URL using base62 encoding
+5. Store the mapping of long URL to short URL in the Database
+6. Return the short URL to the user
+
+### redirect logic:
+1. Receive short URL from user
+2. Check Redis Cache for the short URLs
+3. If found in Cache, return the corresponding long URLs
+4. If not found in Cache, query the Database for the short URL
+5. If found in Database, store the mapping in Redis Cache for future requests
+6. Return the long URL to the user
+
+
+
