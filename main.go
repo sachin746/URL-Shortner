@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"URL-Shortner/api"
 	"URL-Shortner/flags"
 	"URL-Shortner/log"
 	"URL-Shortner/utils/cache"
 	"URL-Shortner/utils/configs"
+	"URL-Shortner/utils/cron"
 	"URL-Shortner/utils/database"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +24,7 @@ func main() {
 	configs.InitConfigs(ctx)
 	cache.InitRedisCache(ctx)
 	database.InitDatabase(ctx)
+	cron.StartCleanupCron(ctx, 1*time.Hour)
 	startRouter()
 }
 

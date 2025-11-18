@@ -17,7 +17,12 @@ func RateLimitingMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		clientIP := c.ClientIP()
 		log.Sugar.Infof("Client IP: %s", clientIP)
-		windowSize := strconv.ParseInt(viper.GetString("rateLimiting.windowSize")))
+		windowSize, err := strconv.ParseInt(viper.GetString("rateLimiting.windowSize"), 10, 64)
+		if err != nil {
+			log.Sugar.Errorf("Error parsing window size: %v", err)
+			c.JSON(http.StatusInternalServerError, constants.ErrInternalServerError)
+			return
+		}
 		maxRequests := viper.GetInt("rateLimiting.maxRequests")
 
 		redisClient := cache.GetRedisCache().Client
@@ -27,7 +32,7 @@ func RateLimitingMiddleware() gin.HandlerFunc {
 			c.JSON(http.StatusInternalServerError, constants.ErrInternalServerError)
 		}
 		if redisCount == 1 {
-			err := redisClient.Expire(c, clientIP, time.Duration(windowsize))
+			err := redisClient.Expire(c, clientIP, time.Duration(windowSize)*time.Millisecond).Err()
 			if err != nil {
 				log.Sugar.Errorf("Redis EXPIRE error: %v", err)
 				c.JSON(http.StatusInternalServerError, constants.ErrInternalServerError)

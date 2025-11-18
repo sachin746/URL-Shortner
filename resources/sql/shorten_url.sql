@@ -2,7 +2,7 @@ CREATE TABLE shortened_url (
     id PRIMARY KEY NOT NULL, 
     original_url TEXT NOT NULL,
     short_code VARCHAR(12) UNIQUE NOT NULL,
-    user_id BIGINT,
+    user_id VARCHAR(20),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    expires_at TIMESTAMP WITH TIME ZONE
+    valid_till TIMESTAMP WITH TIME ZONE
 );

@@ -31,13 +31,14 @@ func GetShortenUrl(urlRequest models.URL) (models.URL, error) {
 		return models.URL{}, err
 	}
 	println("Generated Short Code:", shortCode)
+	validTill := time.Now().AddDate(0, int(urlRequest.ValidForInMonths), 0)
 
 	// Save the shortened URL to the database
 	shortenUrl := entities.ShortenUrl{
 		ShortCode:   shortCode,
 		OriginalURL: urlRequest.OriginalURL,
 		UserID:      urlRequest.UserID,
-		ExpiresAt:   urlRequest.ExpiresAt,
+		ValidTill:   validTill,
 	}
 
 	result := database.Get().Create(&shortenUrl)
@@ -125,10 +126,10 @@ func GetOriginalURL(ctx context.Context, shortCode string) (models.URL, error) {
 	}
 
 	urlResponse := models.URL{
-		OriginalURL: shortenUrl.OriginalURL,
-		ShortCode:   shortenUrl.ShortCode,
-		UserID:      shortenUrl.UserID,
-		ExpiresAt:   shortenUrl.ExpiresAt,
+		OriginalURL:      shortenUrl.OriginalURL,
+		ShortCode:        shortenUrl.ShortCode,
+		UserID:           shortenUrl.UserID,
+		ValidForInMonths: int64(shortenUrl.ValidTill.Month()),
 	}
 
 	err = cache.GetRedisCache().Set(ctx, shortCode, OriginalURL, 1*time.Hour)

@@ -28,4 +28,5 @@ var (
 	ErrInvalidOriginalURL     = &errors.Error{Code: "INVALID-ORIGINAL-URL", Status: 400, Message: "Original URL is invalid", Err: nil}
 	ErrOriginalURLisMandatory = &errors.Error{Code: "ORIGINAL-URL-IS-MANDATORY", Status: 400, Message: "Original URL is mandatory", Err: nil}
 	ErrTooManyRequests        = &errors.Error{Code: "TOO-MANY-REQUESTS", Status: 429, Message: "Too many requests, please try again later", Err: nil}
+	ErrInvalidValidityPeriod  = &errors.Error{Code: "INVALID-VALIDITY-PERIOD", Status: 400, Message: "Validity period must be at least 1 month", Err: nil}
 )

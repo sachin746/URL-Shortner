@@ -5,14 +5,14 @@
 
 ### Get shortUrl
 
-POST http://{{hostname}}/v1/shortcode HTTP/1.1
+POST http://{{hostname}}/shortcode HTTP/1.1
 Content-Type: application/json
 
-{ "originalUrl": "https://www.youtube.com" }
+{ "original_url": "https://www.youtube.com", "valid_for_in_months": 1 }
 
 ### Redirect to originalUrl
 
-GET http://{{hostname}}/v1/{{shortcode}} HTTP/1.1
+GET http://{{hostname}}/{{shortcode2}} HTTP/1.1
 
 
 

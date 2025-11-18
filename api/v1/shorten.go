@@ -21,9 +21,11 @@ func HandleShortenURL(c *gin.Context) {
 		return
 	}
 	// Validate the login request
-	if err := urlRequest.Validate(); err != nil {
+	log.Sugar.Infof("Received Request %v", urlRequest)
+	err := urlRequest.Validate()
+	if err != nil {
 		log.Sugar.Errorf("Validation failed: %v", err)
-		c.JSON(http.StatusBadRequest, constants.ErrOriginalURLisMandatory.SetErr(err))
+		c.JSON(http.StatusBadRequest, err)
 		return
 	}
 
