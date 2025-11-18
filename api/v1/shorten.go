@@ -39,7 +39,7 @@ func HandleShortenURL(c *gin.Context) {
 
 func HandleGetURL(c *gin.Context) {
 	shortCode := c.Param("shortcode")
-	urlResponse, err := business.GetOriginalURL(shortCode)
+	urlResponse, err := business.GetOriginalURL(c, shortCode)
 	if err != nil {
 		log.Sugar.Errorf("Failed to get original URL: %v", err)
 		c.JSON(http.StatusNotFound, errors.New("shortcode not found"))

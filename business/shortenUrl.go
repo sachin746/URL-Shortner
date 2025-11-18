@@ -1,14 +1,20 @@
 package business
 
 import (
+	"context"
 	"errors"
 	"fmt"
+	"strconv"
+	"time"
 
 	"URL-Shortner/entities"
 	"URL-Shortner/log"
 	"URL-Shortner/models"
+	"URL-Shortner/utils/cache"
 	"URL-Shortner/utils/database"
 
+	"github.com/redis/go-redis/v9"
+	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
 
@@ -19,7 +25,11 @@ func GetShortenUrl(urlRequest models.URL) (models.URL, error) {
 		return models.URL{}, err
 	}
 	println("Generated URL ID:", id)
-	shortCode := generateShortCode(uint(id[0]))
+	shortCode, err := generateShortCode(id)
+	if err != nil {
+		log.Sugar.Errorf("Failed to generate short code: %v", err)
+		return models.URL{}, err
+	}
 	println("Generated Short Code:", shortCode)
 
 	// Save the shortened URL to the database
@@ -41,7 +51,7 @@ func GetShortenUrl(urlRequest models.URL) (models.URL, error) {
 	return urlRequest, nil
 }
 
-func getUrlId(db *gorm.DB) (string, error) {
+func getUrlId(db *gorm.DB) (uint, error) {
 	// get current id from url_id table
 	var urlIdGenerator entities.URLIDGenerator
 	tx := db.Begin()
@@ -57,7 +67,7 @@ func getUrlId(db *gorm.DB) (string, error) {
 	if err != nil {
 		log.Sugar.Errorf("Failed to get URL ID generator: %v", err)
 		tx.Rollback()
-		return "", errors.New("failed to get URL ID generator")
+		return 0, errors.New("failed to get URL ID generator")
 	}
 
 	currentId := urlIdGenerator.CurrentID
@@ -67,22 +77,46 @@ func getUrlId(db *gorm.DB) (string, error) {
 	tx.Save(&urlIdGenerator)
 	tx.Commit()
 
-	return fmt.Sprintf("%d", currentId), nil
+	return currentId, nil
 }
 
-func generateShortCode(id uint) string {
+func generateShortCode(id uint) (string, error) {
+	mappings := make(map[string]string)
+	mappings = viper.GetStringMapString("characherMapping")
 	// Convert the ID to a short code using base62 encoding
-	const charset = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	var shortCode []byte
-	for id > 0 {
-		remainder := id % 62
-		shortCode = append([]byte{charset[remainder]}, shortCode...)
-		id = id / 62
+
+	binary := strconv.FormatUint(uint64(id), 2)
+	paddedbinaryString := fmt.Sprintf("%048s", binary)
+	log.Sugar.Info("Padded Binary String:", paddedbinaryString)
+	log.Sugar.Info("Length of Padded Binary String:", len(paddedbinaryString))
+	var shortCode string
+	for i := 0; i < len(paddedbinaryString); i += 6 {
+		chunk := paddedbinaryString[i : i+6]
+		// binary string → int
+		n, err := strconv.ParseInt(chunk, 2, 64)
+		if err != nil {
+			log.Sugar.Errorf("Failed to parse binary string: %v", err)
+			return "", err
+		}
+		fmt.Println("Chunk:", chunk, "Int:", n)
+		shortCode += mappings[fmt.Sprintf("%d", n)]
+		log.Sugar.Info("Current Short Code:", shortCode)
 	}
-	return string(shortCode)
+	return shortCode, nil
 }
 
-func GetOriginalURL(shortCode string) (models.URL, error) {
+func GetOriginalURL(ctx context.Context, shortCode string) (models.URL, error) {
+	OriginalURL, err := cache.GetRedisCache().Get(ctx, shortCode)
+	if err != nil && err != redis.Nil {
+		log.Sugar.Errorf("Failed to get URL from cache: %v", err)
+	} else if err == nil {
+		urlResponse := models.URL{
+			OriginalURL: OriginalURL,
+			ShortCode:   shortCode,
+		}
+		log.Sugar.Info("Cache hit for short code:", shortCode)
+		return urlResponse, nil
+	}
 	var shortenUrl entities.ShortenUrl
 	result := database.Get().Where("short_code = ?", shortCode).First(&shortenUrl)
 	if result.Error != nil {
@@ -97,5 +131,6 @@ func GetOriginalURL(shortCode string) (models.URL, error) {
 		ExpiresAt:   shortenUrl.ExpiresAt,
 	}
 
+	err = cache.GetRedisCache().Set(ctx, shortCode, OriginalURL, 1*time.Hour)
 	return urlResponse, nil
 }

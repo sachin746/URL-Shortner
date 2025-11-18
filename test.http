@@ -1,8 +1,21 @@
 @hostname = localhost:8080
+@shortcode = aaaCeCSK
+@shortcode2 = aaa4WEWr
+
 
 ### Get shortUrl
-POST http://{{hostname}}/v1/shorten
-content-type: application/json
-{
-  "originalUrl": "https://www.example.com/some/very/long/url"
-}
+
+POST http://{{hostname}}/v1/shortcode HTTP/1.1
+Content-Type: application/json
+
+{ "originalUrl": "https://www.youtube.com" }
+
+### Redirect to originalUrl
+
+GET http://{{hostname}}/v1/{{shortcode}} HTTP/1.1
+
+
+
+### get google
+
+GET https://www.github.com/sachin746 HTTP/1.1

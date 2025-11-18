@@ -7,6 +7,7 @@ import (
 	"URL-Shortner/api"
 	"URL-Shortner/flags"
 	"URL-Shortner/log"
+	"URL-Shortner/utils/cache"
 	"URL-Shortner/utils/configs"
 	"URL-Shortner/utils/database"
 
@@ -19,6 +20,7 @@ func main() {
 
 	log.InitLogger(ctx)
 	configs.InitConfigs(ctx)
+	cache.InitRedisCache(ctx)
 	database.InitDatabase(ctx)
 	startRouter()
 }

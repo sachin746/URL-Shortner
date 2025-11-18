@@ -54,5 +54,9 @@
 5. If found in Database, store the mapping in Redis Cache for future requests
 6. Return the long URL to the user
 
-
+### Rate Limiting:
+- Implemented using Redis to track the number of requests per user/IP
+- Set a limit of 50 requests per minute per user/IP
+- If the limit is exceeded, return a 429 Too Many Requests response
+- Using Fixed Window Counter algorithm for rate limiting
 
