@@ -60,3 +60,11 @@
 - If the limit is exceeded, return a 429 Too Many Requests response
 - Using Fixed Window Counter algorithm for rate limiting
 
+### Custom Alias:
+1. Receive long URL and custom alias from user
+2. Check if the custom alias already exists in the Database
+3. If it exists, return an error to the user
+4. If it does not exist, store the mapping of long URL to custom alias in the Database
+5. Return the custom short URL to the user
+
+
