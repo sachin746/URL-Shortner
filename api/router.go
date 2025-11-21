@@ -49,6 +49,7 @@ func GetRouter() (*gin.Engine, error) {
 	}
 	// add rate limiting middleware
 	router.Use(middleware.RateLimitingMiddleware())
+	router.POST("/custom/shortcode", apiv1.HandleCustomShortenURL)
 	router.POST("/shortcode", apiv1.HandleShortenURL)
 	router.GET("/:shortcode", apiv1.HandleGetURL)
 

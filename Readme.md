@@ -67,4 +67,18 @@
 4. If it does not exist, store the mapping of long URL to custom alias in the Database
 5. Return the custom short URL to the user
 
+### Click Analytics:
+1. event based architecture can be used to handle click tracking asynchronously
+1. Each time a short URL is accessed, increment the click_count in the Database
+3. Provide an endpoint for users to retrieve the click count for their short URLs
+4. Optionally, store click data in a separate table for more detailed analytics (e.g., timestamp, IP address)
+5. Use this data to generate reports and insights for users about their URLs
+- Clicks Table:
+  - id (Primary Key)
+  - url_id (Foreign Key to Url Table)
+  - clicked_at (Timestamp)
+  - ip_address (Varchar)
+  - country (Varchar)
+  - clickCount (Integer)
+
 

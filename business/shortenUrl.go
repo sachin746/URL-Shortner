@@ -19,37 +19,36 @@ import (
 )
 
 func GetShortenUrl(urlRequest models.URL) (models.URL, error) {
-	id, err := getUrlId(database.Get())
-	if err != nil {
-		log.Sugar.Errorf("Failed to generate URL ID: %v", err)
-		return models.URL{}, err
-	}
-	println("Generated URL ID:", id)
-	shortCode, err := generateShortCode(id)
-	if err != nil {
-		log.Sugar.Errorf("Failed to generate short code: %v", err)
-		return models.URL{}, err
-	}
-	println("Generated Short Code:", shortCode)
-	validTill := time.Now().AddDate(0, int(urlRequest.ValidForInMonths), 0)
+	for range 3 {
+		id, err := getUrlId(database.Get())
+		if err != nil {
+			log.Sugar.Errorf("Failed to generate URL ID: %v", err)
+			return models.URL{}, err
+		}
+		println("Generated URL ID:", id)
+		shortCode, err := generateShortCode(id)
+		if err != nil {
+			log.Sugar.Errorf("Failed to generate short code: %v", err)
+			return models.URL{}, err
+		}
+		println("Generated Short Code:", shortCode)
+		validTill := time.Now().AddDate(0, int(urlRequest.ValidForInMonths), 0)
 
-	// Save the shortened URL to the database
-	shortenUrl := entities.ShortenUrl{
-		ShortCode:   shortCode,
-		OriginalURL: urlRequest.OriginalURL,
-		UserID:      urlRequest.UserID,
-		ValidTill:   validTill,
-	}
+		// Save the shortened URL to the database
+		shortenUrl := entities.ShortenUrl{
+			ShortCode:   shortCode,
+			OriginalURL: urlRequest.OriginalURL,
+			UserID:      urlRequest.UserID,
+			ValidTill:   validTill,
+		}
 
-	result := database.Get().Create(&shortenUrl)
-	if result.Error != nil {
-		log.Sugar.Errorf("Failed to save shortened URL: %v", result.Error)
-		return models.URL{}, result.Error
+		result := database.Get().Create(&shortenUrl)
+		if result.Error == nil {
+			urlRequest.ShortCode = shortCode
+			return urlRequest, nil
+		}
 	}
-
-	urlRequest.ShortCode = shortCode
-	// Return the shortened URL response
-	return urlRequest, nil
+	return models.URL{}, errors.New("failed to generate unique short code after multiple attempts")
 }
 
 func getUrlId(db *gorm.DB) (uint, error) {

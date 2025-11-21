@@ -3,16 +3,18 @@ package constants
 import "URL-Shortner/utils/errors"
 
 var (
-	ErrUserAlreadyExists   = &errors.Error{Code: "USER-ALREADY-EXISTS", Status: 400, Message: "User already exists", Err: nil}
-	ErrEmailAlreadyExists  = &errors.Error{Code: "EMAIL-ALREADY-EXISTS", Status: 400, Message: "Email already exists", Err: nil}
-	ErrMobileAlreadyExists = &errors.Error{Code: "MOBILE-ALREADY-EXISTS", Status: 400, Message: "Mobile already exists", Err: nil}
-	ErrDBError             = &errors.Error{Code: "DB-ERROR", Status: 500, Message: "Failed to create user", Err: nil}
-	ErrNameisMandatory     = &errors.Error{Code: "NAME-IS-MANDATORY", Status: 400, Message: "Name is mandatory", Err: nil}
-	ErrEmailisMandatory    = &errors.Error{Code: "EMAIL-IS-MANDATORY", Status: 400, Message: "Email is mandatory", Err: nil}
-	ErrPasswordisMandatory = &errors.Error{Code: "PASSWORD-IS-MANDATORY", Status: 400, Message: "Password is mandatory", Err: nil}
-	ErrMobileisMandatory   = &errors.Error{Code: "MOBILE-IS-MANDATORY", Status: 400, Message: "Mobile is mandatory", Err: nil}
-	ErrDobisMandatory      = &errors.Error{Code: "DOB-IS-MANDATORY", Status: 400, Message: "Date of Birth is invalid", Err: nil}
-	ErrUsernameisMandatory = &errors.Error{Code: "USERNAME-IS-MANDATORY", Status: 400, Message: "Username is mandatory", Err: nil}
+	ErrUserAlreadyExists            = &errors.Error{Code: "USER-ALREADY-EXISTS", Status: 400, Message: "User already exists", Err: nil}
+	ErrEmailAlreadyExists           = &errors.Error{Code: "EMAIL-ALREADY-EXISTS", Status: 400, Message: "Email already exists", Err: nil}
+	ErrMobileAlreadyExists          = &errors.Error{Code: "MOBILE-ALREADY-EXISTS", Status: 400, Message: "Mobile already exists", Err: nil}
+	ErrDBError                      = &errors.Error{Code: "DB-ERROR", Status: 500, Message: "Failed to create user", Err: nil}
+	ErrNameisMandatory              = &errors.Error{Code: "NAME-IS-MANDATORY", Status: 400, Message: "Name is mandatory", Err: nil}
+	ErrEmailisMandatory             = &errors.Error{Code: "EMAIL-IS-MANDATORY", Status: 400, Message: "Email is mandatory", Err: nil}
+	ErrPasswordisMandatory          = &errors.Error{Code: "PASSWORD-IS-MANDATORY", Status: 400, Message: "Password is mandatory", Err: nil}
+	ErrMobileisMandatory            = &errors.Error{Code: "MOBILE-IS-MANDATORY", Status: 400, Message: "Mobile is mandatory", Err: nil}
+	ErrDobisMandatory               = &errors.Error{Code: "DOB-IS-MANDATORY", Status: 400, Message: "Date of Birth is invalid", Err: nil}
+	ErrUsernameisMandatory          = &errors.Error{Code: "USERNAME-IS-MANDATORY", Status: 400, Message: "Username is mandatory", Err: nil}
+	ErrInvalidCustomShortCode       = &errors.Error{Code: "INVALID-CUSTOM-SHORT-CODE", Status: 400, Message: "Custom url should be alpha-numberic", Err: nil}
+	ErrCustomShortCodeAlreadyExists = &errors.Error{Code: "CUSTOM-SHORT-CODE-ALREADY-EXISTS", Status: 400, Message: "Custom short code already exists", Err: nil}
 
 	ErrBindJSONFailed     = &errors.Error{Code: "BIND-JSON-FAILED", Status: 400, Message: "Failed to bind JSON", Err: nil}
 	ErrSomethingWentWrong = &errors.Error{Code: "SOMETHING-WENT-WRONG", Status: 500, Message: "Something went wrong", Err: nil}
