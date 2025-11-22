@@ -1,4 +1,5 @@
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/fef826ba-5f5a-4270-a77a-555695d780e6" />
+
 ## URL-Shorter Service
 
 #### Technologies Used: GoLang, GORM, PostgreSQL, Redis
