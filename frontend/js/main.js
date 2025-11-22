@@ -1,10 +1,11 @@
 // Check auth state on load
 document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.getElementById('navLinks');
-    if (api.isAuthenticated()) {
+    if (navLinks && api.isAuthenticated()) {
         navLinks.innerHTML = `
+            <a href="stats.html">Stats</a>
             <a href="tech.html">Tech Stack</a>
-            <a href="dashboard.html" class="btn btn-secondary">Dashboard</a>
+            <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
         `;
     }
 });

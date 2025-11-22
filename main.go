@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"URL-Shortner/api"
+	"URL-Shortner/events"
 	"URL-Shortner/flags"
 	"URL-Shortner/log"
 	"URL-Shortner/utils/cache"
@@ -25,6 +26,7 @@ func main() {
 	cache.InitRedisCache(ctx)
 	database.InitDatabase(ctx)
 	cron.StartCleanupCron(ctx, 1*time.Hour)
+	events.StartClickWorker()
 	startRouter()
 }
 

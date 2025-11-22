@@ -57,6 +57,7 @@ func InitDatabase(ctx context.Context) {
 		&entities.User{},
 		&entities.URLIDGenerator{},
 		&entities.ShortenUrl{},
+		&entities.Click{},
 	)
 	if err != nil {
 		log.Sugar.Fatalf("Failed to migrate database: %v", err)

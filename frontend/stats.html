@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Statistics - Short.ly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="/favicon.ico">
+    <style>
+        .stats-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .clicks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .clicks-table th,
+        .clicks-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .clicks-table th {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="/" class="logo">Short.ly</a>
+                <div class="nav-links" id="navLinks">
+                    <a href="stats.html">Stats</a>
+                    <a href="tech.html">Tech Stack</a>
+                    <a href="login.html">Login</a>
+                    <a href="register.html" class="btn btn-primary">Get Started</a>
+                </div>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="stats-container">
+                <h2>URL Statistics</h2>
+                <div class="search-box">
+                    <input type="text" id="shortCodeInput" placeholder="Enter Short Code (e.g., abcd123)">
+                    <button class="btn-primary" onclick="fetchStats()">View Stats</button>
+                </div>
+
+                <div id="statsResult" style="display: none;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalClicks">0</div>
+                        <div class="stat-label">Total Clicks</div>
+                    </div>
+
+                    <h3>Recent Clicks</h3>
+                    <table class="clicks-table">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>IP Address</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clicksTableBody">
+                            <!-- Rows will be added here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="errorMsg" style="color: #ff4444; text-align: center; margin-top: 20px;"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Short.ly. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        async function fetchStats() {
+            const shortCode = document.getElementById('shortCodeInput').value.trim();
+            if (!shortCode) return;
+
+            const resultDiv = document.getElementById('statsResult');
+            const errorDiv = document.getElementById('errorMsg');
+            const tableBody = document.getElementById('clicksTableBody');
+
+            resultDiv.style.display = 'none';
+            errorDiv.textContent = '';
+            tableBody.innerHTML = '';
+
+            try {
+                const response = await fetch(`/api/v1/stats/${shortCode}`);
+                if (!response.ok) throw new Error('URL not found');
+
+                const data = await response.json();
+
+                document.getElementById('totalClicks').textContent = data.click_count;
+
+                if (data.recent_clicks && data.recent_clicks.length > 0) {
+                    data.recent_clicks.forEach(click => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${new Date(click.ClickedAt).toLocaleString()}</td>
+                            <td>${click.IPAddress}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `<td colspan="2" style="text-align: center;">No clicks yet</td>`;
+                    tableBody.appendChild(row);
+                }
+
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                errorDiv.textContent = error.message;
+            }
+        }
+
+        // Check for shortcode in URL query param
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        if (code) {
+            document.getElementById('shortCodeInput').value = code;
+            fetchStats();
+        }
+    </script>
+</body>
+
+</html>

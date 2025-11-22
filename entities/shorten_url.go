@@ -9,6 +9,7 @@ type ShortenUrl struct {
 	UserID      string    `gorm:"column:user_id;"`
 	Created_at  time.Time `gorm:"column:created_at;autoCreateTime:nano;not null"`
 	ValidTill   time.Time `gorm:"column:valid_till;not null"`
+	ClickCount  int64     `gorm:"column:click_count;default:0"`
 }
 
 func (ShortenUrl) TableName() string {

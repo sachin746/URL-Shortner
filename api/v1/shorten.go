@@ -3,9 +3,11 @@ package v1
 import (
 	"errors"
 	"net/http"
+	"time"
 
 	"URL-Shortner/business"
 	"URL-Shortner/constants"
+	"URL-Shortner/events"
 	"URL-Shortner/log"
 	"URL-Shortner/models"
 
@@ -47,6 +49,13 @@ func HandleGetURL(c *gin.Context) {
 		c.JSON(http.StatusNotFound, errors.New("shortcode not found"))
 		return
 	}
+	// Publish click event asynchronously
+	events.PublishClickEvent(events.ClickEvent{
+		ShortCode: shortCode,
+		IPAddress: c.ClientIP(),
+		ClickedAt: time.Now(),
+	})
+
 	c.Redirect(http.StatusMovedPermanently, urlResponse.OriginalURL)
 	log.Sugar.Infof("Original URL for shortcode %s retrieved successfully", shortCode)
 }

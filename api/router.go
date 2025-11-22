@@ -57,12 +57,14 @@ func GetRouter() (*gin.Engine, error) {
 	router.StaticFile("/register.html", "./frontend/register.html")
 	router.StaticFile("/dashboard.html", "./frontend/dashboard.html")
 	router.StaticFile("/tech.html", "./frontend/tech.html")
+	router.StaticFile("/stats.html", "./frontend/stats.html")
 	router.StaticFile("/favicon.ico", "./frontend/favicon.png")
 
 	// add rate limiting middleware
 	router.Use(middleware.RateLimitingMiddleware())
 	router.POST("/custom/shortcode", apiv1.HandleCustomShortenURL)
 	router.POST("/shortcode", apiv1.HandleShortenURL)
+	router.GET("/api/v1/stats/:shortcode", apiv1.HandleGetStats)
 	router.GET("/:shortcode", apiv1.HandleGetURL)
 
 	log.Sugar.Infof("Router initialized with version 1 endpoints")
