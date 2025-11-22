@@ -131,7 +131,7 @@ func GetOriginalURL(ctx context.Context, shortCode string) (models.URL, error) {
 		ValidForInMonths: int64(shortenUrl.ValidTill.Month()),
 	}
 
-	err = cache.GetRedisCache().Set(ctx, shortCode, OriginalURL, 1*time.Hour)
+	err = cache.GetRedisCache().Set(ctx, shortCode, shortenUrl.OriginalURL, 1*time.Hour)
 	if err != nil {
 		log.Sugar.Errorf("Failed to set URL in cache: %v", err)
 	}
