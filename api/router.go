@@ -52,10 +52,12 @@ func GetRouter() (*gin.Engine, error) {
 	router.Static("/css", "./frontend/css")
 	router.Static("/js", "./frontend/js")
 	router.StaticFile("/", "./frontend/index.html")
+	router.StaticFile("/index.html", "./frontend/index.html")
 	router.StaticFile("/login.html", "./frontend/login.html")
 	router.StaticFile("/register.html", "./frontend/register.html")
 	router.StaticFile("/dashboard.html", "./frontend/dashboard.html")
 	router.StaticFile("/tech.html", "./frontend/tech.html")
+	router.StaticFile("/favicon.ico", "./frontend/favicon.png")
 
 	// add rate limiting middleware
 	router.Use(middleware.RateLimitingMiddleware())
