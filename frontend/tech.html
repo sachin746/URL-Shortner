@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Stack | Short.ly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .tech-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 0.8rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .tech-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tech-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            color: var(--text-color);
+        }
+
+        .tech-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+        }
+
+        .section-title span {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Short.ly</a>
+                <div class="nav-links">
+                    <a href="index.html">Home</a>
+                    <a href="tech.html" class="active">Tech Stack</a>
+                    <a href="login.html" id="loginLink">Login</a>
+                    <a href="register.html" id="registerLink" class="btn btn-primary">Get Started</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Built for <br><span>Performance</span></h1>
+                <p>Explore the modern technologies powering this URL shortener.</p>
+
+                <h2 class="section-title" style="margin-top: 4rem;">Backend <span>Architecture</span></h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">Go</div>
+                        <div class="tech-title">Golang</div>
+                        <div class="tech-desc">High-performance, statically typed language for robust backend services.
+                        </div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">Gin</div>
+                        <div class="tech-title">Gin Framework</div>
+                        <div class="tech-desc">Fastest HTTP web framework for Go, featuring a martini-like API.</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">PG</div>
+                        <div class="tech-title">PostgreSQL</div>
+                        <div class="tech-desc">Advanced open-source relational database for reliable data storage.</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">Rd</div>
+                        <div class="tech-title">Redis</div>
+                        <div class="tech-desc">In-memory data structure store used for caching and rate limiting.</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">Dk</div>
+                        <div class="tech-title">Docker</div>
+                        <div class="tech-desc">Containerization for consistent development and deployment environments.
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 4rem;">Frontend <span>Experience</span></h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">JS</div>
+                        <div class="tech-title">Vanilla JavaScript</div>
+                        <div class="tech-desc">Lightweight, framework-free interaction logic for maximum speed.</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">CSS</div>
+                        <div class="tech-title">Modern CSS3</div>
+                        <div class="tech-desc">Custom properties, Flexbox, Grid, and Glassmorphism effects.</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">H5</div>
+                        <div class="tech-title">HTML5</div>
+                        <div class="tech-desc">Semantic markup for better accessibility and SEO.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Check auth state
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelector('.nav-links');
+            if (api.isAuthenticated()) {
+                // Keep Tech Stack link but change Auth buttons
+                const techLink = '<a href="tech.html" class="active">Tech Stack</a>';
+                const dashboardLink = '<a href="dashboard.html" class="btn btn-secondary">Dashboard</a>';
+                navLinks.innerHTML = `<a href="index.html">Home</a>${techLink}${dashboardLink}`;
+            }
+        });
+    </script>
+</body>
+
+</html>

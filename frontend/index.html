@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener | Modern & Fast</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Short.ly</a>
+                <div class="nav-links" id="navLinks">
+                    <a href="tech.html">Tech Stack</a>
+                    <a href="login.html" id="loginLink">Login</a>
+                    <a href="register.html" id="registerLink" class="btn btn-primary">Get Started</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>Shorten URLs with <br><span>Superpowers</span></h1>
+                <p>The most powerful URL shortener for modern businesses. Custom domains, analytics, and more.</p>
+
+                <div class="form-container">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="switchTab('standard')">Standard</button>
+                        <button class="tab-btn" onclick="switchTab('custom')">Custom URL</button>
+                    </div>
+
+                    <div id="alertBox" class="hidden"></div>
+
+                    <!-- Standard Form -->
+                    <form id="standardForm">
+                        <div class="form-group">
+                            <input type="text" id="stdOriginalUrl" class="form-control"
+                                placeholder="Paste your long URL here..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="stdValidityPeriod"
+                                style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Validity
+                                Period</label>
+                            <select id="stdValidityPeriod" class="form-control" required>
+                                <option value="1">1 Month</option>
+                                <option value="3">3 Months</option>
+                                <option value="6" selected>6 Months</option>
+                                <option value="12">1 Year</option>
+                                <option value="1200">Permanent (100 Years)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Shorten Now</button>
+                    </form>
+
+                    <!-- Custom Form -->
+                    <form id="customForm" class="hidden">
+                        <div class="form-group">
+                            <input type="text" id="custOriginalUrl" class="form-control"
+                                placeholder="Paste your long URL here..." required>
+                        </div>
+                        <div class="form-group">
+                            <div class="short-url-container" style="margin-top: 0; margin-bottom: 0.5rem;">
+                                <span style="color: #94a3b8;">short.ly/</span>
+                                <input type="text" id="custShortCode" class="form-control" placeholder="custom-alias"
+                                    required pattern="[a-zA-Z0-9]{4,10}" title="4-10 alphanumeric characters">
+                            </div>
+                            <small style="color: #64748b; font-size: 0.8rem;">4-10 alphanumeric characters</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="custValidityPeriod"
+                                style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 0.5rem; display: block;">Validity
+                                Period</label>
+                            <select id="custValidityPeriod" class="form-control" required>
+                                <option value="1">1 Month</option>
+                                <option value="3">3 Months</option>
+                                <option value="6" selected>6 Months</option>
+                                <option value="12">1 Year</option>
+                                <option value="1200">Permanent (100 Years)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Custom Link</button>
+                    </form>
+
+                    <!-- Result -->
+                    <div id="resultCard" class="result-card">
+                        <div class="text-center">
+                            <h3 style="color: var(--success-color); margin-bottom: 0.5rem;">Success!</h3>
+                            <p style="font-size: 0.9rem; color: #cbd5e1;">Your link is ready</p>
+                        </div>
+                        <div class="short-url-container">
+                            <div id="shortUrlDisplay" class="short-url"></div>
+                            <button onclick="copyToClipboard()" class="btn btn-secondary">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -55,6 +55,7 @@ func InitDatabase(ctx context.Context) {
 	log.Sugar.Info("Running database migrations...")
 	err = db.AutoMigrate(
 		&entities.User{},
+		&entities.Auth{},
 		&entities.URLIDGenerator{},
 		&entities.ShortenUrl{},
 	)
