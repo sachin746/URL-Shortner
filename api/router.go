@@ -47,6 +47,16 @@ func GetRouter() (*gin.Engine, error) {
 		profile.GET("", apiv1.HandleGetUser)
 
 	}
+
+	// Serve static files
+	router.Static("/css", "./frontend/css")
+	router.Static("/js", "./frontend/js")
+	router.StaticFile("/", "./frontend/index.html")
+	router.StaticFile("/login.html", "./frontend/login.html")
+	router.StaticFile("/register.html", "./frontend/register.html")
+	router.StaticFile("/dashboard.html", "./frontend/dashboard.html")
+	router.StaticFile("/tech.html", "./frontend/tech.html")
+
 	// add rate limiting middleware
 	router.Use(middleware.RateLimitingMiddleware())
 	router.POST("/custom/shortcode", apiv1.HandleCustomShortenURL)
