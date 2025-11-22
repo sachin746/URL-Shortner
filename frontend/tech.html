@@ -88,49 +88,94 @@
                 <div class="tech-grid">
                     <div class="tech-card">
                         <div class="tech-icon">Go</div>
-                        <div class="tech-title">Golang</div>
-                        <div class="tech-desc">High-performance, statically typed language for robust backend services.
-                        </div>
+                        <div class="tech-title">Golang + Gin</div>
+                        <div class="tech-desc">RESTful API with JWT authentication, OAuth2 (Google/GitHub), and
+                            middleware for CORS, rate limiting, and auth.</div>
                     </div>
                     <div class="tech-card">
-                        <div class="tech-icon">Gin</div>
-                        <div class="tech-title">Gin Framework</div>
-                        <div class="tech-desc">Fastest HTTP web framework for Go, featuring a martini-like API.</div>
+                        <div class="tech-icon">⚡</div>
+                        <div class="tech-title">Event-Driven Click Tracking</div>
+                        <div class="tech-desc">Async producer-consumer pattern using Go channels to track clicks without
+                            blocking redirects.</div>
                     </div>
                     <div class="tech-card">
                         <div class="tech-icon">PG</div>
-                        <div class="tech-title">PostgreSQL</div>
-                        <div class="tech-desc">Advanced open-source relational database for reliable data storage.</div>
+                        <div class="tech-title">PostgreSQL + GORM</div>
+                        <div class="tech-desc">Relational database with auto-migrations, foreign keys, and optimized
+                            queries for URL storage and analytics.</div>
                     </div>
                     <div class="tech-card">
                         <div class="tech-icon">Rd</div>
-                        <div class="tech-title">Redis</div>
-                        <div class="tech-desc">In-memory data structure store used for caching and rate limiting.</div>
+                        <div class="tech-title">Redis Caching</div>
+                        <div class="tech-desc">In-memory cache for frequently accessed URLs (1-hour TTL) and distributed
+                            rate limiting.</div>
                     </div>
                     <div class="tech-card">
-                        <div class="tech-icon">Dk</div>
-                        <div class="tech-title">Docker</div>
-                        <div class="tech-desc">Containerization for consistent development and deployment environments.
-                        </div>
+                        <div class="tech-icon">🔐</div>
+                        <div class="tech-title">Security & Auth</div>
+                        <div class="tech-desc">Bcrypt password hashing, JWT tokens, OAuth2 integration, and protected
+                            routes with middleware.</div>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">📊</div>
+                        <div class="tech-title">Analytics System</div>
+                        <div class="tech-desc">Detailed click tracking with IP addresses, timestamps, and aggregated
+                            statistics via REST API.</div>
                     </div>
                 </div>
 
-                <h2 class="section-title" style="margin-top: 4rem;">Frontend <span>Experience</span></h2>
-                <div class="tech-grid">
-                    <div class="tech-card">
-                        <div class="tech-icon">JS</div>
-                        <div class="tech-title">Vanilla JavaScript</div>
-                        <div class="tech-desc">Lightweight, framework-free interaction logic for maximum speed.</div>
+                <h2 class="section-title" style="margin-top: 4rem;">How It <span>Works</span></h2>
+                <div style="max-width: 900px; margin: 0 auto; text-align: left;">
+                    <div class="tech-card" style="margin-bottom: 1.5rem;">
+                        <div class="tech-title" style="text-align: left;">1. URL Shortening</div>
+                        <div class="tech-desc" style="text-align: left;">
+                            User submits a long URL with optional custom short code and validity period (1-12 months or
+                            permanent).
+                            The backend generates a unique 6-character short code using base62 encoding of a
+                            database-generated ID.
+                            URL is stored in PostgreSQL with metadata (user_id, created_at, valid_till) and cached in
+                            Redis for 1 hour.
+                        </div>
                     </div>
-                    <div class="tech-card">
-                        <div class="tech-icon">CSS</div>
-                        <div class="tech-title">Modern CSS3</div>
-                        <div class="tech-desc">Custom properties, Flexbox, Grid, and Glassmorphism effects.</div>
+
+                    <div class="tech-card" style="margin-bottom: 1.5rem;">
+                        <div class="tech-title" style="text-align: left;">2. URL Redirection</div>
+                        <div class="tech-desc" style="text-align: left;">
+                            When a short URL is accessed, the system first checks Redis cache. If not found, queries
+                            PostgreSQL.
+                            Before redirecting, a click event is published to an async Go channel (non-blocking).
+                            User is immediately redirected to the original URL with 301 status.
+                        </div>
                     </div>
-                    <div class="tech-card">
-                        <div class="tech-icon">H5</div>
-                        <div class="tech-title">HTML5</div>
-                        <div class="tech-desc">Semantic markup for better accessibility and SEO.</div>
+
+                    <div class="tech-card" style="margin-bottom: 1.5rem;">
+                        <div class="tech-title" style="text-align: left;">3. Click Tracking (Async)</div>
+                        <div class="tech-desc" style="text-align: left;">
+                            Background worker consumes click events from the channel. For each event, it creates a Click
+                            record
+                            (with IP, timestamp) and increments the URL's click_count in a database transaction.
+                            This happens asynchronously without affecting redirect performance.
+                        </div>
+                    </div>
+
+                    <div class="tech-card" style="margin-bottom: 1.5rem;">
+                        <div class="tech-title" style="text-align: left;">4. Analytics & Stats</div>
+                        <div class="tech-desc" style="text-align: left;">
+                            Users can view detailed statistics via the Stats page. The API endpoint fetches the URL's
+                            click_count
+                            and recent clicks (last 50) from the database. Data is displayed in a clean table showing
+                            timestamps and IP addresses.
+                        </div>
+                    </div>
+
+                    <div class="tech-card" style="margin-bottom: 1.5rem;">
+                        <div class="tech-title" style="text-align: left;">5. Authentication & Security</div>
+                        <div class="tech-desc" style="text-align: left;">
+                            Users can register/login with username+password (bcrypt hashed) or via OAuth2
+                            (Google/GitHub).
+                            JWT tokens are issued for authenticated sessions. Protected routes use auth middleware.
+                            Rate limiting prevents abuse (Redis-based distributed limiter).
+                        </div>
                     </div>
                 </div>
             </div>
